@@ -1,0 +1,86 @@
+<ion-view view-title="Pickup">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon icon ion-loop" ng-click="dashCtrl.updateSelectedTruck()"></button>
+  </ion-nav-buttons>
+  <ion-content class="padding">
+    <div id="truck_select">
+      Current Driver:
+      <div>
+        <select ng-model="dashCtrl.selectedTruckId" ng-change="dashCtrl.updateSelectedTruck()">
+        <option ng-repeat="truck in dashCtrl.trucks" value="{{truck.id}}">{{truck.identifier}}</option>
+      </select>
+      </div>
+    </div>
+    <div id="call_information" ng-if="dashCtrl.selectedTruckId">
+      <div ng-show="dashCtrl.activeCall">
+        <div class="card" ng-show="dashCtrl.activeCall.pickUpLocation">
+          <div class="item item-divider">
+            Pickup Location
+          </div>
+          <div class="item">
+            <a href="{{dashCtrl.activeCall.pickUpURL}})">{{dashCtrl.activeCall.pickUpLocation}}</a>
+          </div>
+        </div>
+        <div class="card" ng-show="dashCtrl.activeCall.callType">
+          <div class="item item-divider">
+            Type
+          </div>
+          <div class="item">
+            {{dashCtrl.activeCall.callType}}
+          </div>
+        </div>
+        <div class="card" ng-show="dashCtrl.activeCall.customer">
+          <div class="item item-divider">
+            Customer
+          </div>
+          <div class="item">
+            {{dashCtrl.activeCall.customer.firstName}} {{dashCtrl.activeCall.customer.lastName}} | (<a href="tel:{{dashCtrl.activeCall.customer.phoneNumber}}">{{dashCtrl.activeCall.customer.phoneNumber}}</a>)
+          </div>
+        </div>
+        <div class="card" ng-show="dashCtrl.activeCall.customer.vehicle">
+          <div class="item item-divider">
+            Vehicle
+          </div>
+          <div class="item">
+            {{dashCtrl.activeCall.customer.vehicle.color}} | {{dashCtrl.activeCall.customer.vehicle.make}} | {{dashCtrl.activeCall.customer.vehicle.model}}
+            | {{dashCtrl.activeCall.customer.vehicle.licensePlateNumber}}
+          </div>
+        </div>
+        <div class="card" ng-show="dashCtrl.activeCall.customer.priceQuote">
+          <div class="item item-divider">
+            Price Quote
+          </div>
+          <div class="item">
+            ${{dashCtrl.activeCall.customer.priceQuote}}
+          </div>
+        </div>
+        <div class="card" ng-show="dashCtrl.activeCall.dropOffLocation">
+          <div class="item item-divider">
+            Dropoff Location
+          </div>
+          <div class="item">
+            <a href="{{dashCtrl.activeCall.dropOffURL}})">{{dashCtrl.activeCall.dropOffLocation}}</a>
+          </div>
+        </div>
+      </div>
+      <div ng-hide="dashCtrl.activeCall">
+        No calls assigned, please contact dispatcher
+      </div>
+      <div id="truck_status_update" ng-show="dashCtrl.activeCall">
+
+        <button ion-button
+                ng-show="dashCtrl.available"
+                id="start_call"
+                ng-click="dashCtrl.startCall()">Start Call</button>
+        <button ion-button
+                ng-hide="dashCtrl.loaded || dashCtrl.available"
+                id="load_call"
+                ng-click="dashCtrl.loadTruck()">Truck Loaded</button>
+        <button ion-button
+                ng-hide="dashCtrl.available"
+                id="complete_call"
+                ng-click="dashCtrl.completeCall()">Complete Call</button>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

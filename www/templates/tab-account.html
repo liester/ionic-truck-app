@@ -1,0 +1,25 @@
+<ion-view view-title="Truck">
+  <ion-content>
+    <ul class="list">
+      <li class="item item-divider">
+        <label class="item-input item-select">
+          <div class="input-label">
+            Truck Number
+          </div>
+          <select ng-model="truckId"
+                  ng-options="x.identifier for x in truckIds"
+                  ng-change="getTruck(truckId)">
+          </select>
+        </label>
+      </li>
+      <li class="item">
+        <label class="item-input">
+          <div class="input-label">
+            Driver
+          </div>
+          {{truck.driverFirstName}} {{truck.driverLastName}}
+        </label>
+      </li>
+    </ul>
+  </ion-content>
+</ion-view>
