@@ -15,9 +15,11 @@ angular.module('starter.controllers', [])
             } else {
                 controller.currLocation = "http://maps.google.com?q="+encodeURIComponent(position.coords.latitude)+encodeURIComponent(position.coords.longitude);
             }
+            console.log(position);
         });
     } else {
         controller.currLocation ="Location didn't work";
+        console.log("Didn't make location call");
     }
 
     TruckService.getTruckIds().then((response) => {
