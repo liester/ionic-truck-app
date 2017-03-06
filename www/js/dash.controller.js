@@ -5,6 +5,20 @@ angular.module('starter.controllers', [])
     let localTruckId = window.localStorage.getItem('truckId');
     let available;
     let loaded;
+    let controller = this;
+
+    if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            //It didn't want to work using 'this'
+            if(navigator.userAgent.match(/(Android)/)) {
+                controller.currLocation = "geo:?q="+encodeURIComponent(position.coords.latitude)+encodeURIComponent(position.coords.longitude);
+            } else {
+                controller.currLocation = "http://maps.google.com?q="+encodeURIComponent(position.coords.latitude)+encodeURIComponent(position.coords.longitude);
+            }
+        });
+    } else {
+        controller.currLocation ="Location didn't work";
+    }
 
     TruckService.getTruckIds().then((response) => {
       this.trucks = response.data;

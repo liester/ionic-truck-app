@@ -11,6 +11,14 @@
       </select>
       </div>
     </div>
+    <div class="card">
+      <div class="item item-divider">
+        Current Location
+      </div>
+      <div class="item">
+        <a href="{{dashCtrl.currLocation}}">{{dashCtrl.currLocation}}</a>
+      </div>
+    </div>
     <div id="call_information" ng-if="dashCtrl.selectedTruckId">
       <div ng-show="dashCtrl.activeCall">
         <div class="card" ng-show="dashCtrl.activeCall.pickUpLocation">
@@ -18,7 +26,7 @@
             Pickup Location
           </div>
           <div class="item">
-            <a href="{{dashCtrl.activeCall.pickUpURL}})">{{dashCtrl.activeCall.pickUpLocation}}</a>
+            <a href="{{dashCtrl.activeCall.pickUpURL}}">{{dashCtrl.activeCall.pickUpLocation}}</a>
           </div>
         </div>
         <div class="card" ng-show="dashCtrl.activeCall.callType">
@@ -59,7 +67,7 @@
             Dropoff Location
           </div>
           <div class="item">
-            <a href="{{dashCtrl.activeCall.dropOffURL}})">{{dashCtrl.activeCall.dropOffLocation}}</a>
+            <a href="{{dashCtrl.activeCall.dropOffURL}}">{{dashCtrl.activeCall.dropOffLocation}}</a>
           </div>
         </div>
       </div>
