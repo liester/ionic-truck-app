@@ -7,26 +7,27 @@ angular.module('starter.controllers', [])
     this.loaded = false;
     let controller = this;
 
-    if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            //It didn't want to work using 'this'
-            if(navigator.userAgent.match(/(Android)/)) {
-                controller.currLocation = "geo:?q="+encodeURIComponent(position.coords.latitude)+","+encodeURIComponent(position.coords.longitude);
-            } else {
-                controller.currLocation = "http://maps.google.com?q="+encodeURIComponent(position.coords.latitude)+","+encodeURIComponent(position.coords.longitude);
-            }
-            console.log(position);
-        });
-    } else {
-        controller.currLocation ="Location didn't work";
-        console.log("Didn't make location call");
-    }
+//    if(navigator.geolocation) {
+//        navigator.geolocation.getCurrentPosition(function(position) {
+//            //It didn't want to work using 'this'
+//            if(navigator.userAgent.match(/(Android)/)) {
+//                controller.currLocation = "geo:?q="+encodeURIComponent(position.coords.latitude)+","+encodeURIComponent(position.coords.longitude);
+//            } else {
+//                controller.currLocation = "http://maps.google.com?q="+encodeURIComponent(position.coords.latitude)+","+encodeURIComponent(position.coords.longitude);
+//            }
+//            console.log(position);
+//        });
+//    } else {
+//        controller.currLocation ="Location didn't work";
+//        console.log("Didn't make location call");
+//    }
 
     TruckService.getTruckIds().then((response) => {
       this.trucks = response.data;
       if(localTruckId) {
         this.selectedTruckId = localTruckId;
-//        this.updateSelectedTruck();
+        this.updateSelectedTruck();
+        this.loggedIn = true;
       }
     });
 
@@ -44,9 +45,11 @@ angular.module('starter.controllers', [])
         }
       });
       TruckService.truck(this.selectedTruckId).then((response) => {
-        console.log(response.data);
         if(response.data) {
           this.truck = response.data;
+          if(this.truck.driverFirstName) {
+            this.driverName = this.truck.driverFirstName;
+          }
           this.available = response.data.truckStatusType == "AVAILABLE";
         }
       });
@@ -84,7 +87,7 @@ angular.module('starter.controllers', [])
           this.available = true;
           this.loggedIn = true;
           this.updateSelectedTruck();
-          $state.go('tab.dash');
+//          $state.go('tab.dash');
         }
       });
     };
@@ -98,6 +101,7 @@ angular.module('starter.controllers', [])
         this.truck = null;
         this.activeCall = null;
         this.driverName = null;
+        this.loggedIn = false;
       });
     };
 

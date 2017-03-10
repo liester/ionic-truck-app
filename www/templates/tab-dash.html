@@ -54,20 +54,36 @@
             | {{dashCtrl.activeCall.customer.vehicle.licensePlateNumber}}
           </div>
         </div>
+        <div class="card" ng-show="dashCtrl.activeCall.customer.vehicle.keyLocationType">
+          <div class="item item-divider">
+            Key Location
+          </div>
+          <div class="item">
+            {{dashCtrl.activeCall.customer.vehicle.keyLocationType}}
+          </div>
+        </div>
         <div class="card" ng-show="dashCtrl.activeCall.customer.priceQuote">
           <div class="item item-divider">
             Price Quote
           </div>
           <div class="item">
-            ${{dashCtrl.activeCall.customer.priceQuote}}
+            {{dashCtrl.activeCall.customer.priceQuote}}
           </div>
         </div>
-        <div class="card" ng-show="dashCtrl.activeCall.customer.priceQuote"><!-- TODO - Add notes, payment type, and key location. Make sure the server is sending that info back. -->
+        <div class="card" ng-show="dashCtrl.activeCall.customer.paymentType">
           <div class="item item-divider">
-            Price Quote
+            Payment type
           </div>
           <div class="item">
-            ${{dashCtrl.activeCall.customer.priceQuote}}
+            {{dashCtrl.activeCall.customer.paymentType}}
+          </div>
+        </div>
+        <div class="card" ng-show="dashCtrl.activeCall.comment">
+          <div class="item item-divider">
+            Notes
+          </div>
+          <div class="item">
+            {{dashCtrl.activeCall.comment}}
           </div>
         </div>
         <div class="card" ng-show="dashCtrl.activeCall.dropOffLocation">
@@ -84,15 +100,15 @@
       </div>
       <div id="truck_status_update" ng-show="dashCtrl.activeCall">
 
-        <button ion-button
+        <button ion-button large
                 ng-show="dashCtrl.available"
                 id="start_call"
                 ng-click="dashCtrl.startCall()">Start Call</button>
-        <button ion-button
+        <button ion-button large
                 ng-hide="dashCtrl.loaded || dashCtrl.available"
                 id="load_call"
                 ng-click="dashCtrl.loadTruck()">Truck Loaded</button>
-        <button ion-button
+        <button ion-button large
                 ng-hide="dashCtrl.available"
                 id="complete_call"
                 ng-click="dashCtrl.completeCall()">Complete Call</button>
