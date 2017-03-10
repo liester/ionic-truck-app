@@ -20,6 +20,18 @@ angular.module('starter.services', [])
           method: "POST",
           url: window.ServiceUrl + "/trucks/status/" + id + "/" + status
         })
+      },
+      updateDriverAvailable: function(id, name) {
+        return $http({
+          method: "POST",
+          url: window.ServiceUrl + "/trucks/driver/" + id + "/" + name + "/available"
+        })
+      },
+      updateDriverOffDuty: function(id) {
+        return $http({
+          method: "POST",
+          url: window.ServiceUrl + "/trucks/driver/" + id + "/offduty"
+        })
       }
     }
   })

@@ -3,14 +3,14 @@
     <button class="button button-icon icon ion-loop" ng-click="dashCtrl.updateSelectedTruck()"></button>
   </ion-nav-buttons>
   <ion-content class="padding">
-    <div id="truck_select">
-      Current Driver:
-      <div>
-        <select ng-model="dashCtrl.selectedTruckId" ng-change="dashCtrl.updateSelectedTruck()">
-        <option ng-repeat="truck in dashCtrl.trucks" value="{{truck.id}}">{{truck.identifier}}</option>
-      </select>
-      </div>
-    </div>
+    <!--<div id="truck_select">-->
+      <!--Current Driver:-->
+      <!--<div>-->
+        <!--<select ng-model="dashCtrl.selectedTruckId" ng-change="dashCtrl.updateSelectedTruck()">-->
+        <!--<option ng-repeat="truck in dashCtrl.trucks" value="{{truck.id}}">{{truck.identifier}}</option>-->
+      <!--</select>-->
+      <!--</div>-->
+    <!--</div>-->
     <div class="card">
       <div class="item item-divider">
         Current Location
@@ -55,6 +55,14 @@
           </div>
         </div>
         <div class="card" ng-show="dashCtrl.activeCall.customer.priceQuote">
+          <div class="item item-divider">
+            Price Quote
+          </div>
+          <div class="item">
+            ${{dashCtrl.activeCall.customer.priceQuote}}
+          </div>
+        </div>
+        <div class="card" ng-show="dashCtrl.activeCall.customer.priceQuote"><!-- TODO - Add notes, payment type, and key location. Make sure the server is sending that info back. -->
           <div class="item item-divider">
             Price Quote
           </div>
