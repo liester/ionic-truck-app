@@ -21,18 +21,6 @@ angular.module('starter.services', [])
           url: window.ServiceUrl + "/trucks/status/" + id + "/" + status
         })
       },
-      updateDriverAvailable: function(id, name) {
-        return $http({
-          method: "POST",
-          url: window.ServiceUrl + "/trucks/driver/" + id + "/" + name + "/available"
-        })
-      },
-      updateDriverOffDuty: function(id) {
-        return $http({
-          method: "POST",
-          url: window.ServiceUrl + "/trucks/driver/" + id + "/offduty"
-        })
-      },
       updateLocation: function(id, lat, lon) {
         return $http({
           method: "POST",
@@ -59,6 +47,27 @@ angular.module('starter.services', [])
           method: "POST",
           url: window.ServiceUrl + "/calls/activeTruck/" + id + "/complete"
         })
+      }
+    }
+  })
+
+  .factory('StateService', function() {
+    let selectedTruckId;
+    let loggedIn;
+
+    return {
+      setSelectedTruckId: function(truckId) {
+        selectedTruckId = truckId;
+        window.localStorage.setItem('truckId', truckId);
+      },
+      getSelectedTruckId: function() {
+        if(selectedTruckId) {
+          return selectedTruckId;
+        } else {
+          let truckId = window.localStorage.getItem('truckId');
+          selectedTruckId = truckId;
+          return truckId;
+        }
       }
     }
   })

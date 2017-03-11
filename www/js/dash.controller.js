@@ -1,20 +1,20 @@
 angular.module('starter.controllers', [])
 
-  .controller('DashCtrl', function ($scope, $state, TruckService, CallService) {
+  .controller('DashCtrl', function ($scope, $state, TruckService, CallService, StateService) {
 
     let localTruckId = window.localStorage.getItem('truckId');
     this.available = false;
     this.loaded = false;
     let controller = this; //Required for location services.
 
-    TruckService.getTruckIds().then((response) => {
-      this.trucks = response.data;
-      if(localTruckId) {
-        this.selectedTruckId = localTruckId;
-        this.updateSelectedTruck();
-        this.loggedIn = true;
-      }
-    });
+//    TruckService.getTruckIds().then((response) => {
+//      this.trucks = response.data;
+//      if(localTruckId) {
+//        this.selectedTruckId = localTruckId;
+//        this.updateSelectedTruck();
+//        this.loggedIn = true;
+//      }
+//    });
 
     this.updateSelectedTruck = () => {
       CallService.getActiveCall(this.selectedTruckId).then((response) => {
@@ -29,15 +29,6 @@ angular.module('starter.controllers', [])
           this.activeCall.dropOffURL = "http://maps.google.com?q="+encodeURIComponent(this.activeCall.dropOffLocation);
         }
       });
-//      TruckService.truck(this.selectedTruckId).then((response) => {
-//        if(response.data) {
-//          this.truck = response.data;
-//          if(this.truck.driverFirstName) {
-//            this.driverName = this.truck.driverFirstName;
-//          }
-//          this.available = response.data.truckStatusType == "AVAILABLE";
-//        }
-//      });
     };
 
     this.startCall = () => {
@@ -67,14 +58,16 @@ angular.module('starter.controllers', [])
     };
 
     this.logIn = () => {
-      TruckService.updateDriverAvailable(this.selectedTruckId, this.driverName).then((response) => {
-        if(response.data) {
-          this.available = true;
-          this.loggedIn = true;
-          this.updateSelectedTruck();
-//          $state.go('tab.dash');
-        }
-      });
+      StateService.setSelectedTruckId(this.selectedTruckId);
+      $state.go('tab.dash');
+//      TruckService.updateDriverAvailable(this.selectedTruckId, this.driverName).then((response) => {
+//        if(response.data) {
+//          this.available = true;
+//          this.loggedIn = true;
+//          this.updateSelectedTruck();
+////          $state.go('tab.dash');
+//        }
+//      });
     };
 
     this.logOff = () => {

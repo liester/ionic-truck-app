@@ -6,22 +6,26 @@
           <div class="input-label">
             Truck Number
           </div>
-          <select large ng-model="dashCtrl.selectedTruckId">
-            <option ng-repeat="truck in dashCtrl.trucks" value="{{truck.id}}">{{truck.identifier}}</option>
+          <select large ng-model="accountCtrl.selectedTruckId"
+                  ng-change="accountCtrl.getTruck(accountCtrl.selectedTruckId)"
+                  ng-disabled="accountCtrl.loggedIn">
+            <option ng-repeat="truck in accountCtrl.trucks" value="{{truck.id}}">{{truck.identifier}}</option>
           </select>
         </label>
       </li>
       <li class="item">
-        <label class="item item-input">
-          <span class="input-label">Driver name</span>
-          <input type="text" ng-model="dashCtrl.driverName" ng-maxlength="20"/>
+        <label class="item-input">
+          <div class="input-label">
+            Driver
+          </div>
+          {{accountCtrl.truck.driverFirstName}} {{accountCtrl.truck.driverLastName}}
         </label>
       </li>
       <li class="item">
-        <button ion-button large ng-hide="dashCtrl.loggedIn" ng-click="dashCtrl.logIn()">
+        <button ion-button large ng-hide="accountCtrl.loggedIn" ng-click="accountCtrl.logIn()">
           Log In
         </button>
-        <button ion-button large ng-show="dashCtrl.loggedIn" ng-click="dashCtrl.logOff()">
+        <button ion-button large ng-show="accountCtrl.loggedIn" ng-click="accountCtrl.logOff()">
           Log Off
         </button>
       </li>
