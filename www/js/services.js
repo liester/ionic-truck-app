@@ -32,6 +32,16 @@ angular.module('starter.services', [])
           method: "POST",
           url: window.ServiceUrl + "/trucks/driver/" + id + "/offduty"
         })
+      },
+      updateLocation: function(id, lat, lon) {
+        return $http({
+          method: "POST",
+          url: window.ServiceUrl + "/trucks/location/" + id,
+          data: {
+            lat: lat,
+            lon: lon
+          }
+        })
       }
     }
   })

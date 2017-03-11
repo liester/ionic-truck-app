@@ -5,22 +5,7 @@ angular.module('starter.controllers', [])
     let localTruckId = window.localStorage.getItem('truckId');
     this.available = false;
     this.loaded = false;
-    let controller = this;
-
-//    if(navigator.geolocation) {
-//        navigator.geolocation.getCurrentPosition(function(position) {
-//            //It didn't want to work using 'this'
-//            if(navigator.userAgent.match(/(Android)/)) {
-//                controller.currLocation = "geo:?q="+encodeURIComponent(position.coords.latitude)+","+encodeURIComponent(position.coords.longitude);
-//            } else {
-//                controller.currLocation = "http://maps.google.com?q="+encodeURIComponent(position.coords.latitude)+","+encodeURIComponent(position.coords.longitude);
-//            }
-//            console.log(position);
-//        });
-//    } else {
-//        controller.currLocation ="Location didn't work";
-//        console.log("Didn't make location call");
-//    }
+    let controller = this; //Required for location services.
 
     TruckService.getTruckIds().then((response) => {
       this.trucks = response.data;
@@ -44,15 +29,15 @@ angular.module('starter.controllers', [])
           this.activeCall.dropOffURL = "http://maps.google.com?q="+encodeURIComponent(this.activeCall.dropOffLocation);
         }
       });
-      TruckService.truck(this.selectedTruckId).then((response) => {
-        if(response.data) {
-          this.truck = response.data;
-          if(this.truck.driverFirstName) {
-            this.driverName = this.truck.driverFirstName;
-          }
-          this.available = response.data.truckStatusType == "AVAILABLE";
-        }
-      });
+//      TruckService.truck(this.selectedTruckId).then((response) => {
+//        if(response.data) {
+//          this.truck = response.data;
+//          if(this.truck.driverFirstName) {
+//            this.driverName = this.truck.driverFirstName;
+//          }
+//          this.available = response.data.truckStatusType == "AVAILABLE";
+//        }
+//      });
     };
 
     this.startCall = () => {
@@ -104,5 +89,22 @@ angular.module('starter.controllers', [])
         this.loggedIn = false;
       });
     };
+
+    this.findLocation = () => {
+      if(this.selectedTruckId) {
+        if(navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            TruckService.updateLocation(controller.selectedTruckId, position.coords.latitude.toString(), position.coords.longitude.toString()).then((response) => {
+              console.log(response);
+            });
+            console.log(position.coords);
+          });
+        } else {
+            console.log("Didn't make location call");
+        }
+      }
+    }
+
+    window.setInterval(this.findLocation, 60000);//60 seconds
 
   });
