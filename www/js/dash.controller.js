@@ -7,7 +7,9 @@ angular.module('starter.controllers', [])
       if(fromState.name == "tab.account" && toState.name == "tab.dash") {
         if(StateService.getSelectedTruckId() != this.selectedTruckId) {
           this.selectedTruckId = StateService.getSelectedTruckId();
+          this.status = StateService.getTruckStatus();
           this.updateSelectedTruck();
+          this.updateTruckStatus();
         }
       }
     });
@@ -38,11 +40,26 @@ angular.module('starter.controllers', [])
     };
     this.updateSelectedTruck();
 
+    this.updateTruckStatus = () => {
+      if(this.status.toUpperCase() == "AVAILABLE"){
+        this.available = true;
+        this.loaded = false;
+      } else if(this.status.toUpperCase() == "EN-ROUTE") {
+        this.available = false;
+        this.loaded = false;
+      } else if(this.status.toUpperCase() == "LOADED") {
+        this.available = false;
+        this.loaded = true;
+      }
+    };
+    this.updateTruckStatus();
+
     this.startCall = () => {
       TruckService.updateStatus(this.selectedTruckId, "En-Route").then((response) => {
         if(response.data) {
-          this.available = response.data.truckStatusType == "AVAILABLE";
-          this.loaded = response.data.truckStatusType == "LOADED";
+          StateService.setTruckStatus("EN-ROUTE");
+          this.available = false;
+          this.loaded = false;
         }
       });
     };
@@ -50,14 +67,16 @@ angular.module('starter.controllers', [])
     this.loadTruck = () => {
       TruckService.updateStatus(this.selectedTruckId, "Loaded").then((response) => {
         if(response.data) {
-          this.available = response.data.truckStatusType == "AVAILABLE";
-          this.loaded = response.data.truckStatusType == "LOADED";
+          StateService.setTruckStatus("LOADED");
+          this.available = false;
+          this.loaded = true;
         }
       });
     };
 
     this.completeCall = () => {
       CallService.completeCall(this.selectedTruckId).then((response) => {
+        StateService.setTruckStatus("AVAILABLE");
         this.available = true;
         this.loaded = false;
         this.updateSelectedTruck();

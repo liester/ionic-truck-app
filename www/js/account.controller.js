@@ -25,6 +25,7 @@ angular.module('starter.controllers')
     this.logOff = () => {
       TruckService.updateStatus(this.selectedTruckId, "Off-duty").then((response) => {
         StateService.setSelectedTruckId("");
+        StateService.setTruckStatus("OFF-DUTY");
         this.selectedTruckId = "";
         this.truck = null;
         this.loggedIn = false;

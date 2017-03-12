@@ -100,15 +100,15 @@
       </div>
       <div id="truck_status_update" ng-show="dashCtrl.activeCall">
 
-        <button ion-button large
+        <button class="button button-large button-positive"
                 ng-show="dashCtrl.available"
                 id="start_call"
                 ng-click="dashCtrl.startCall()">Start Call</button>
-        <button ion-button large
+        <button class="button button-large button-positive"
                 ng-hide="dashCtrl.loaded || dashCtrl.available"
                 id="load_call"
                 ng-click="dashCtrl.loadTruck()">Truck Loaded</button>
-        <button ion-button large
+        <button class="button button-large button-positive"
                 ng-hide="dashCtrl.available"
                 id="complete_call"
                 ng-click="dashCtrl.completeCall()">Complete Call</button>

@@ -6,26 +6,33 @@
           <div class="input-label">
             Truck Number
           </div>
-          <select large ng-model="accountCtrl.selectedTruckId"
+          <select id="truck-select"
+                  ng-model="accountCtrl.selectedTruckId"
                   ng-change="accountCtrl.getTruck(accountCtrl.selectedTruckId)"
                   ng-disabled="accountCtrl.loggedIn">
-            <option ng-repeat="truck in accountCtrl.trucks" value="{{truck.id}}">{{truck.identifier}}</option>
+            <option style="font-size: xx-large"
+                    ng-repeat="truck in accountCtrl.trucks"
+                    value="{{truck.id}}">{{truck.identifier}}</option>
           </select>
         </label>
       </li>
       <li class="item">
         <label class="item-input">
           <div class="input-label">
-            Driver
+            Driver:
           </div>
-          {{accountCtrl.truck.driverFirstName}} {{accountCtrl.truck.driverLastName}}
+          <div class="input-label">
+            {{accountCtrl.truck.driverFirstName}} {{accountCtrl.truck.driverLastName}}
+          </div>
         </label>
       </li>
       <li class="item">
-        <button ion-button large ng-hide="accountCtrl.loggedIn" ng-click="accountCtrl.logIn()">
+        <button class="button button-large button-positive"
+                ng-hide="accountCtrl.loggedIn" ng-click="accountCtrl.logIn()">
           Log In
         </button>
-        <button ion-button large ng-show="accountCtrl.loggedIn" ng-click="accountCtrl.logOff()">
+        <button class="button button-large button-positive"
+                ng-show="accountCtrl.loggedIn" ng-click="accountCtrl.logOff()">
           Log Off
         </button>
       </li>
