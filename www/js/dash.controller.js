@@ -58,8 +58,8 @@ angular.module('starter.controllers', [])
       TruckService.updateStatus(this.selectedTruckId, "En-Route").then((response) => {
         if(response.data) {
           StateService.setTruckStatus("EN-ROUTE");
-          this.available = false;
-          this.loaded = false;
+          this.status = "EN-ROUTE";
+          this.updateTruckStatus();
         }
       });
     };
@@ -68,8 +68,8 @@ angular.module('starter.controllers', [])
       TruckService.updateStatus(this.selectedTruckId, "Loaded").then((response) => {
         if(response.data) {
           StateService.setTruckStatus("LOADED");
-          this.available = false;
-          this.loaded = true;
+          this.status = "LOADED";
+          this.updateTruckStatus();
         }
       });
     };
@@ -77,8 +77,8 @@ angular.module('starter.controllers', [])
     this.completeCall = () => {
       CallService.completeCall(this.selectedTruckId).then((response) => {
         StateService.setTruckStatus("AVAILABLE");
-        this.available = true;
-        this.loaded = false;
+        this.status = "AVAILABLE";
+        this.updateTruckStatus();
         this.updateSelectedTruck();
       });
     };
