@@ -17,7 +17,8 @@ angular.module('starter.controllers')
       TruckService.updateStatus(this.selectedTruckId, "AVAILABLE").then((response) => {
         this.loggedIn = true;
         StateService.setSelectedTruckId(this.selectedTruckId);
-        $state.go('tab.dash');
+        StateService.setTruckStatus("AVAILABLE");
+        $state.go('tab.dash', {truckId: this.selectedTruckId}, {reload: true});
       });
     };
 
@@ -31,7 +32,6 @@ angular.module('starter.controllers')
     };
 
     this.getTruck = (truckId) => {
-      console.log("HEY");
       TruckService.truck(truckId).then((response) => {
         if(response.data) {
           this.truck = response.data;

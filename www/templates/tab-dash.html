@@ -11,14 +11,14 @@
       <!--</select>-->
       <!--</div>-->
     <!--</div>-->
-    <div class="card">
-      <div class="item item-divider">
-        Current Location
-      </div>
-      <div class="item">
-        <a href="{{dashCtrl.currLocation}}">My location</a>
-      </div>
-    </div>
+    <!--<div class="card">-->
+      <!--<div class="item item-divider">-->
+        <!--Current Location-->
+      <!--</div>-->
+      <!--<div class="item">-->
+        <!--<a href="{{dashCtrl.currLocation}}">My location</a>-->
+      <!--</div>-->
+    <!--</div>-->
     <div id="call_information" ng-if="dashCtrl.selectedTruckId">
       <div ng-show="dashCtrl.activeCall">
         <div class="card" ng-show="dashCtrl.activeCall.pickUpLocation">
@@ -113,6 +113,9 @@
                 id="complete_call"
                 ng-click="dashCtrl.completeCall()">Complete Call</button>
       </div>
+    </div>
+    <div ng-hide="dashCtrl.selectedTruckId">
+      Please log in from the driver screen.
     </div>
   </ion-content>
 </ion-view>

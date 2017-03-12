@@ -53,7 +53,7 @@ angular.module('starter.services', [])
 
   .factory('StateService', function() {
     let selectedTruckId;
-    let loggedIn;
+    let truckStatus;
 
     return {
       setSelectedTruckId: function(truckId) {
@@ -67,6 +67,19 @@ angular.module('starter.services', [])
           let truckId = window.localStorage.getItem('truckId');
           selectedTruckId = truckId;
           return truckId;
+        }
+      },
+      setTruckStatus: function(status) {
+        truckStatus = status;
+        window.localStorage.setItem('status', status);
+      },
+      getTruckStatus: function(status) {
+        if(truckStatus) {
+          return truckStatus;
+        } else {
+          let status = window.localStorage.getItem('status');
+          truckStatus = status;
+          return status;
         }
       }
     }
