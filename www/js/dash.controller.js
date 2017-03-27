@@ -77,7 +77,7 @@ angular.module('starter.controllers', [])
     };
 
     controller.completeCall = () => {
-      CallService.completeCall(controller.selectedTruckId).then((response) => {
+      CallService.completeCall(controller.activeCall.id).then((response) => {
         StateService.setTruckStatus("AVAILABLE");
         controller.status = "AVAILABLE";
         controller.updateTruckStatus();

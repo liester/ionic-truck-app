@@ -45,7 +45,7 @@ angular.module('starter.services', [])
       completeCall: function(id) {
         return $http({
           method: "POST",
-          url: window.ServiceUrl + "/calls/activeTruck/" + id + "/complete"
+          url: window.ServiceUrl + "/calls/" + id + "/complete"
         })
       }
     }
