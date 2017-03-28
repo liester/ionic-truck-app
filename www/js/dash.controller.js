@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-  .controller('DashCtrl', function ($scope, $state, TruckService, CallService, StateService) {
+  .controller('DashCtrl', function ($scope, $state, $ionicLoading, TruckService, CallService, StateService) {
 
     let controller = this; //Required for location services.
 
@@ -77,30 +77,35 @@ angular.module('starter.controllers', [])
     };
 
     controller.completeCall = () => {
+      $ionicLoading.show({
+        template: 'Completing call',
+        duration: 15000
+      });
       CallService.completeCall(controller.activeCall.id).then((response) => {
         StateService.setTruckStatus("AVAILABLE");
         controller.status = "AVAILABLE";
         controller.updateTruckStatus();
         controller.updateSelectedTruck();
+        $ionicLoading.hide();
       });
     };
 
-    controller.findLocation = () => {
-      if(controller.selectedTruckId) {
-        if(navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            TruckService.updateLocation(controller.selectedTruckId, position.coords.latitude.toString(), position.coords.longitude.toString()).then((response) => {
-              console.log(response);
-            });
-            console.log(position.coords);
-          });
-        } else {
-            console.log("Didn't make location call");
-        }
-      }
-    }
-
-    window.setInterval(controller.findLocation, 60000);//60 seconds
+//    controller.findLocation = () => {
+//      if(controller.selectedTruckId) {
+//        if(navigator.geolocation) {
+//          navigator.geolocation.getCurrentPosition(function(position) {
+//            TruckService.updateLocation(controller.selectedTruckId, position.coords.latitude.toString(), position.coords.longitude.toString()).then((response) => {
+//              console.log(response);
+//            });
+//            console.log(position.coords);
+//          });
+//        } else {
+//            console.log("Didn't make location call");
+//        }
+//      }
+//    }
+//
+//    window.setInterval(controller.findLocation, 60000);//60 seconds
 
     function alertDriver() {
       document.getElementById('truck_alert').classList.add('truck_alert_div');
