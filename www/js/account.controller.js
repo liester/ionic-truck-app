@@ -3,15 +3,19 @@ angular.module('starter.controllers')
   .controller('AccountCtrl', function ($scope, $state, TruckService, CallService, StateService) {
     this.loggedIn = false;
 
-    TruckService.getTruckIds().then((response) => {
-      this.trucks = response.data;
-      let truckId = StateService.getSelectedTruckId();
-      if(truckId) {
-        this.selectedTruckId = truckId;
-        this.getTruck(truckId);
-        this.loggedIn = true;
-      }
-    });
+    this.refreshTruckList = () => {
+      TruckService.getTruckIds().then((response) => {
+        this.trucks = response.data;
+        let truckId = StateService.getSelectedTruckId();
+        if(truckId) {
+          this.selectedTruckId = truckId;
+          this.getTruck(truckId);
+          this.loggedIn = true;
+        }
+      });
+    };
+
+    this.refreshTruckList();
 
     this.logIn = () => {
       TruckService.updateStatus(this.selectedTruckId, "AVAILABLE").then((response) => {
@@ -29,6 +33,7 @@ angular.module('starter.controllers')
         this.selectedTruckId = "";
         this.truck = null;
         this.loggedIn = false;
+        this.refreshTruckList();
       });
     };
 
