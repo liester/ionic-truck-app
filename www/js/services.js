@@ -54,6 +54,7 @@ angular.module('starter.services', [])
   .factory('StateService', function() {
     let selectedTruckId;
     let truckStatus;
+    let cookieClientId;
 
     return {
       setSelectedTruckId: function(truckId) {
@@ -80,6 +81,29 @@ angular.module('starter.services', [])
           let status = window.localStorage.getItem('status');
           truckStatus = status;
           return status;
+        }
+      },
+      setClientId: function(clientId) {
+        cookieClientId = clientId;
+        document.cookie = "clientId=" + this.clientId + ";";
+      },
+      getClientId: function() {
+        if(cookieClientId) {
+          return cookieClientId;
+        } else {
+          var name = "clientId="
+          var decodedCookie = decodeURIComponent(document.cookie);
+          var ca = decodedCookie.split(';');
+          for(var i = 0; i <ca.length; i++) {
+              var c = ca[i];
+              while (c.charAt(0) == ' ') {
+                  c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                  return c.substring(name.length, c.length);
+              }
+          }
+          return "";
         }
       }
     }
