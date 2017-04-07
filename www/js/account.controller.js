@@ -12,15 +12,16 @@ angular.module('starter.controllers')
           this.getTruck(truckId);
           this.loggedIn = true;
         }
-//        this.clientId = StateService.getClientId();
+        if(StateService.getClientId()) {
+          this.clientId = StateService.getClientId();
+        }
       });
     };
 
     this.refreshTruckList();
 
     this.logIn = () => {
-//      StateService.setClientId(this.clientId);
-      document.cookie = "clientId=" + this.clientId + ";";
+      StateService.setClientId(this.clientId);
       TruckService.updateStatus(this.selectedTruckId, "AVAILABLE").then((response) => {
         this.loggedIn = true;
         StateService.setSelectedTruckId(this.selectedTruckId);
@@ -38,7 +39,7 @@ angular.module('starter.controllers')
         this.loggedIn = false;
         this.refreshTruckList();
         this.clientId = "";
-        document.cookie = "clientId= ;";
+        StateService.removeClientId();
       });
     };
 

@@ -1,24 +1,27 @@
 angular.module('starter.services', [])
 
 
-  .factory('TruckService', function ($http) {
+  .factory('TruckService', function ($http, $cookies) {
     return {
       getTruckIds: function () {
         return $http({
           method: "GET",
-          url: window.ServiceUrl + "/trucks/ids"
+          url: window.ServiceUrl + "/trucks/ids",
+          headers: {'Client-Id': $cookies.get('clientId')}
         })
       },
       truck: function (id) {
         return $http({
           method: "GET",
-          url: window.ServiceUrl + "/trucks/" + id
+          url: window.ServiceUrl + "/trucks/" + id,
+          headers: {'Client-Id': $cookies.get('clientId')}
         })
       },
       updateStatus: function(id, status) {
         return $http({
           method: "POST",
-          url: window.ServiceUrl + "/trucks/status/" + id + "/" + status
+          url: window.ServiceUrl + "/trucks/status/" + id + "/" + status,
+          headers: {'Client-Id': $cookies.get('clientId')}
         })
       },
       updateLocation: function(id, lat, lon) {
@@ -28,33 +31,35 @@ angular.module('starter.services', [])
           data: {
             lat: lat,
             lon: lon
-          }
+          },
+          headers: {'Client-Id': $cookies.get('clientId')}
         })
       }
     }
   })
 
-  .factory('CallService', function ($http) {
+  .factory('CallService', function ($http, $cookies) {
     return {
       getActiveCall: function (truckId) {
         return $http({
           method: "GET",
-          url: window.ServiceUrl + "/calls/activeTruck/" + truckId
+          url: window.ServiceUrl + "/calls/activeTruck/" + truckId,
+          headers: {'Client-Id': $cookies.get('clientId')}
         })
       },
       completeCall: function(id) {
         return $http({
           method: "POST",
-          url: window.ServiceUrl + "/calls/" + id + "/complete"
+          url: window.ServiceUrl + "/calls/" + id + "/complete",
+          headers: {'Client-Id': $cookies.get('clientId')}
         })
       }
     }
   })
 
-  .factory('StateService', function() {
+  .factory('StateService', function($cookies) {
     let selectedTruckId;
     let truckStatus;
-    let cookieClientId;
 
     return {
       setSelectedTruckId: function(truckId) {
@@ -84,27 +89,17 @@ angular.module('starter.services', [])
         }
       },
       setClientId: function(clientId) {
-        cookieClientId = clientId;
-        document.cookie = "clientId=" + this.clientId + ";";
+        $cookies.put('clientId', clientId);
       },
       getClientId: function() {
-        if(cookieClientId) {
-          return cookieClientId;
+        if($cookies.get('clientId')!='undefined') {
+          return $cookies.get('clientId');
         } else {
-          var name = "clientId="
-          var decodedCookie = decodeURIComponent(document.cookie);
-          var ca = decodedCookie.split(';');
-          for(var i = 0; i <ca.length; i++) {
-              var c = ca[i];
-              while (c.charAt(0) == ' ') {
-                  c = c.substring(1);
-              }
-              if (c.indexOf(name) == 0) {
-                  return c.substring(name.length, c.length);
-              }
-          }
           return "";
         }
+      },
+      removeClientId: function() {
+        $cookies.remove('clientId');
       }
     }
   })
