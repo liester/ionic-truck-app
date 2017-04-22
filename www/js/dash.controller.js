@@ -137,6 +137,6 @@ angular.module('starter.controllers', [])
         });
       }
     };
-    window.setInterval(pullForNewCall, 180000);
+    window.setInterval(pullForNewCall, 15000);
 
   });
