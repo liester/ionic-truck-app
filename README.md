@@ -1,33 +1,8 @@
-ionic-heroku-button
-===================
+This application is the mobile web portion of an application built to be used by Perry's Towing (tow truck company).
 
-A one-click Ionic app template for Heroku
+It integrates with a back end server to allow tow truck drivers to communicate their status back to the dispatcher in a way that does not interrupt the dispatcher's work process.
 
-## Deploying locally
-
-Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
-
-```sh
-git clone git@github.com:driftyco/ionic-heroku-button.git # or clone your own fork
-cd ionic-heroku-button
-npm install
-npm start
-```
-
-Your app should now be running on [localhost:5000](http://localhost:5000/).
-
-## Deploying to Heroku
-
-```
-heroku create
-git push heroku master
-heroku open
-```
-
-Alternatively, you can deploy your own copy of the app using this button:
-
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
-## Documentation
-
-For more information about using Heroku, check out https://devcenter.heroku.com/
+To start the application locally:
+clone repository
+cd into parent directory, where the package.json is located
+run 'npm start'
