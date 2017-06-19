@@ -22,7 +22,6 @@ angular.module('starter.controllers', [])
     controller.loaded = false;
 
     controller.updateSelectedTruck = () => {
-      controller.activeCall = null;
       if(controller.selectedTruckId) {
         CallService.getActiveCall(controller.selectedTruckId).then((response) => {
           updateSelectedTruckData(response);
@@ -32,13 +31,27 @@ angular.module('starter.controllers', [])
     controller.updateSelectedTruck();
 
     function updateSelectedTruckData(response) {
-      controller.activeCall = response.data;
-      if(navigator.userAgent.match(/(Android)/)) {
-        controller.activeCall.pickUpURL = "geo:?q="+encodeURIComponent(controller.activeCall.pickUpLocation);
-        controller.activeCall.dropOffURL = "geo:?q="+encodeURIComponent(controller.activeCall.dropOffLocation);
+      let newCall = response.data;
+      if(newCall) {
+        if(!controller.activeCall || newCall.id != controller.activeCall.id) {
+          controller.activeCall = newCall;
+          TruckService.updateStatus(controller.selectedTruckId, "Available").then((response) => {
+              if(response.data) {
+                  StateService.setTruckStatus("AVAILABLE");
+                  controller.status = "AVAILABLE";
+                  controller.updateTruckStatus();
+              }
+          });
+        }
+        if(navigator.userAgent.match(/(Android)/)) {
+          controller.activeCall.pickUpURL = "geo:?q="+encodeURIComponent(controller.activeCall.pickUpLocation);
+          controller.activeCall.dropOffURL = "geo:?q="+encodeURIComponent(controller.activeCall.dropOffLocation);
+        } else {
+          controller.activeCall.pickUpURL = "http://maps.google.com?q="+encodeURIComponent(controller.activeCall.pickUpLocation);
+          controller.activeCall.dropOffURL = "http://maps.google.com?q="+encodeURIComponent(controller.activeCall.dropOffLocation);
+        }
       } else {
-        controller.activeCall.pickUpURL = "http://maps.google.com?q="+encodeURIComponent(controller.activeCall.pickUpLocation);
-        controller.activeCall.dropOffURL = "http://maps.google.com?q="+encodeURIComponent(controller.activeCall.dropOffLocation);
+        controller.activeCall = null;
       }
     };
 
@@ -89,23 +102,6 @@ angular.module('starter.controllers', [])
         $ionicLoading.hide();
       });
     };
-
-//    controller.findLocation = () => {
-//      if(controller.selectedTruckId) {
-//        if(navigator.geolocation) {
-//          navigator.geolocation.getCurrentPosition(function(position) {
-//            TruckService.updateLocation(controller.selectedTruckId, position.coords.latitude.toString(), position.coords.longitude.toString()).then((response) => {
-//              console.log(response);
-//            });
-//            console.log(position.coords);
-//          });
-//        } else {
-//            console.log("Didn't make location call");
-//        }
-//      }
-//    }
-//
-//    window.setInterval(controller.findLocation, 60000);//60 seconds
 
     function alertDriver() {
       document.getElementById('truck_alert').classList.add('truck_alert_div');
