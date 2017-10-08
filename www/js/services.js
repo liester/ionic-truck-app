@@ -58,8 +58,9 @@ angular.module('starter.services', [])
   })
 
   .factory('StateService', function($cookies) {
-    let selectedTruckId;
-    let truckStatus;
+    let selectedTruckId,
+      truckStatus,
+      activeCall;
 
     return {
       setSelectedTruckId: function(truckId) {
@@ -86,6 +87,21 @@ angular.module('starter.services', [])
           let status = window.localStorage.getItem('status');
           truckStatus = status;
           return status;
+        }
+      },
+      setActiveCall: function(call) {
+        activeCall = call;
+        window.localStorage.setItem('activeCall', JSON.stringify(activeCall));
+      },
+      getActiveCall: function() {
+        if(activeCall) {
+          return activeCall;
+        } else {
+          let tempCall = window.localStorage.getItem('activeCall');
+          if(tempCall) {
+            activeCall = JSON.parse(tempCall);
+          }
+          return activeCall;
         }
       },
       setClientId: function(clientId) {

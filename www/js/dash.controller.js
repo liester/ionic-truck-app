@@ -17,12 +17,13 @@ angular.module('starter.controllers', [])
 
     controller.selectedTruckId = StateService.getSelectedTruckId();
     controller.status = StateService.getTruckStatus();
+    controller.activeCall = StateService.getActiveCall();
 
     controller.available = false;
     controller.loaded = false;
 
     controller.updateSelectedTruck = () => {
-      if(controller.selectedTruckId) {
+      if(controller.selectedTruckId && !controller.activeCall) {
         CallService.getActiveCall(controller.selectedTruckId).then((response) => {
           updateSelectedTruckData(response);
         });
@@ -50,6 +51,7 @@ angular.module('starter.controllers', [])
           controller.activeCall.pickUpURL = "http://maps.google.com?q="+encodeURIComponent(controller.activeCall.pickUpLocation);
           controller.activeCall.dropOffURL = "http://maps.google.com?q="+encodeURIComponent(controller.activeCall.dropOffLocation);
         }
+        StateService.setActiveCall(controller.activeCall);
       } else {
         controller.activeCall = null;
       }
