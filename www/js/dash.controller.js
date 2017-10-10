@@ -99,6 +99,8 @@ angular.module('starter.controllers', [])
       CallService.completeCall(controller.activeCall.id).then((response) => {
         StateService.setTruckStatus("AVAILABLE");
         controller.status = "AVAILABLE";
+        delete controller.activeCall;
+        StateService.setActiveCall(undefined);
         controller.updateTruckStatus();
         controller.updateSelectedTruck();
         $ionicLoading.hide();
